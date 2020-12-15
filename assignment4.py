@@ -1,6 +1,7 @@
 import pandas as pd
 from random import randrange
-from board import Board, backTrackSearch
+from board import Board
+from backTrackSearch import backTrackSearch
 from queue import PriorityQueue
 
 df = pd.read_csv("sud1.csv")
@@ -9,7 +10,6 @@ dfProblems = df["puzzle"]
 f = open("output.txt","w")
 f.close()
 #pick a puzzle
-id = randrange(0,1000)
 
 for idx in range(1000):
     puzzle = dfProblems.iloc[idx]
@@ -25,5 +25,6 @@ for idx in range(1000):
     else:
         backTrackSearch(board)
         stringy = str(idx)+ ", " + board.returnSolution() + ", " + "BTS"
+        print("Solution: ", board.returnSolution())
         with open("output.txt","a") as f:
             f.write(stringy + "\n")

@@ -151,6 +151,8 @@ class Board():
             else:
                 return True
 
+    #Maintaining Arc Consistency
+    # Makes Selection of Arcs Arc Consistent
     def MAC(self, arcs):
 
         while(True):
@@ -264,53 +266,5 @@ def conflict(board,number,coordinate):
     if colConflict(board,number,coordinate) or rowConflict(board,number,coordinate) or boxConflict(board,number,coordinate):
         return True
     else:
-        return False
-
-
-def backTrackSearch(board):
-    while(True):
-
-        #Build priority
-        backtrackVariables = board.unassigned()
-        if board.isSolved():
-            return True
-        if backtrackVariables.empty():
-            break
-        var = backtrackVariables.get()
-        domain = list(board.domains[var[1]])
-        domains = copy.deepcopy(board.domains)
-
-        neighbours = board.neighbours(var[1])
-        valueScores = PriorityQueue()
-        for value in domain:
-            valueScore = 0
-            for neighbour in neighbours:
-                if value in board.domains[neighbour]:
-                    valueScore += 1
-            valueScores.put((valueScore, value))
-
-        while(True):
-            if valueScores.empty() == False:
-                value = valueScores.get()
-                board.domains[var[1]] = {value[1]}
-                check = []
-                for neighbour in neighbours:
-                    check.append(board.domains[neighbour] == board.domains[var[1]])
-                if any(check):
-                    pass
-                else:
-                    arcs = set()
-                    for neighbour in neighbours:
-                        arcs.add((neighbour, var[1]))
-                    if board.MAC(arcs):
-                        result = backTrackSearch(board)
-                        if result:
-                            return result
-                        else:
-                            board.domains = domains
-                    else:
-                        board.domains = domains
-            else:
-                break
         return False
 
