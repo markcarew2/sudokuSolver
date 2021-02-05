@@ -4,7 +4,21 @@ import copy
 class Board():
     def __init__(self, puzzle):
 
-        """Takes Sudoku string as input, Constructs a board"""
+        """
+        Takes Sudoku string as input, Constructs a board with 
+        rows indexed by letters A-I and columns indexed by 1-9
+
+        The rows, columns and boxes are dictionaries. Keys for rows
+        and columns are aforementioned indices, keys for boxes are 1-9.
+        Values for all are a tuple (a,b), first element (a) is a set representing the numbers
+        currently in that row, column, or box. Second element (b) is a list containing the
+        coordinates of the squares that are in that row, column, or box
+
+        This stores all data about the board as divided by rows, columns, boxs, and grid.
+        Since almost all the data is in sets and dictionaries, it's really fast to look up
+        the information we need. This is important because our searches will be looking
+        up a lot of stuff, over and over.
+        """
 
         global numbers
         global letters
@@ -152,7 +166,7 @@ class Board():
                 return True
 
     #Maintaining Arc Consistency
-    # Makes Selection of Arcs Arc Consistent
+    #Makes Selection of Arcs Arc Consistent
     def MAC(self, arcs):
 
         while(True):
@@ -222,6 +236,7 @@ class Board():
         return cNeighbours
 
 
+
 def revise(board, arc):
     newDomain = set()
     length = len(board.domains[arc[0]])
@@ -241,6 +256,8 @@ def revise(board, arc):
     else:
         return True
 
+
+#Helper Functions to check if a value in a specific position conflicts with its row, column, or box
 def rowConflict(board, number, coordinate):
 
     if number in board.rows[coordinate[0]][0]:

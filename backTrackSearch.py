@@ -5,7 +5,7 @@ import copy
 def backTrackSearch(board):
     while(True):
 
-        #Build priority
+        #Build variable priority based on minimum value heuristic
         backtrackVariables = board.unassigned()
         if board.isSolved():
             return True
@@ -15,6 +15,7 @@ def backTrackSearch(board):
         domain = list(board.domains[var[1]])
         domains = copy.deepcopy(board.domains)
 
+        #Build Value Priority of chosen variable based on least constraining value
         neighbours = board.neighbours(var[1])
         valueScores = PriorityQueue()
         for value in domain:
@@ -24,6 +25,7 @@ def backTrackSearch(board):
                     valueScore += 1
             valueScores.put((valueScore, value))
 
+        #Recursively Call backTrackSearch Until you reach the end of a branch
         while(True):
             if valueScores.empty() == False:
                 value = valueScores.get()
