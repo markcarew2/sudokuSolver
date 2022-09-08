@@ -236,7 +236,9 @@ class Board():
         return cNeighbours
 
 
-
+#Update the domain of the left side of an arc based on the domain of the right side of the arc. 
+#E.g. if the right side has only one element in its domain, that is, the right side is solved,
+#then remove that value from the domain of the left side of the arc.
 def revise(board, arc):
     newDomain = set()
     length = len(board.domains[arc[0]])
